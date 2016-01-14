@@ -26,14 +26,83 @@ import SocketServer
 
 # try: curl -v -X GET http://127.0.0.1:8080/
 
+return_404 = "HTTP/1.1 404 Not Found\r\n"
+return_css = "HTTP/1.1 200 OK\nContent-type: text/css\r\n\r\n"
+return_html = "HTTP/1.1 200 OK\nContent-type: text/html\r\n\r\n"
 
 class MyWebServer(SocketServer.BaseRequestHandler):
-    
-    def handle(self):
-        self.data = self.request.recv(1024).strip()
-        print ("Got a request of: %s\n" % self.data)
-        self.request.sendall("OK")
 
+
+    def Html_decete(self,URL):
+            final_request = return_html
+            f = open(URL, 'r')
+            for each_line in f:
+                final_request=final_request+each_line
+                self.request.sendall(final_request)
+            f.close()
+    
+            
+    def Css_decete(self,URL):
+        final_request = return_css
+        f = open(URL, 'r')
+        for each_line in f:
+            final_request=final_request+each_line
+            self.request.sendall(final_request)
+        f.close()
+    
+    
+    def detect_URL(self, URL):
+        URL_size = len(URL)
+        URL_con=URL[1:URL_size]
+        if(URL[URL_size-1]=="/"):
+            URL_con=URL_con[0:len(URL_con)-1]
+        URL_con="www/"+URL_con
+        return URL_con    
+        
+    def handle(self):
+        URL=""
+        self.data = self.request.recv(1024).strip()
+        if self.data != "":
+            userData=self.data.split()
+            print "@@@@@" 
+            print userData
+            print "@@@@@@@@@@@@@"
+            URL =self.detect_URL(userData[1])
+        
+        if(URL == "www/"):
+            URL = "www/index.html"
+        if (URL == "www/deep"):
+            URL = "www/deep/index.html"
+            
+        try:
+            testF = open(URL,"r")
+            testF.close()
+        except :
+            self.request.sendall(return_404)
+            
+        index = "www/index.html"
+        deep_index = "www/deep/index.html"
+        base = "www/base.css"
+        deep_deep = "www/deep/deep.css"
+        
+        
+        if "etc/group" in URL:
+            self.request.sendall(return_404)        
+        if "deep/index.html" in URL:
+            self.Html_decete(deep_index) 
+        if "index.html" in URL:
+            self.Html_decete(index)
+        if "base.css" in URL:
+            self.Css_decete(base)        
+        if "deep.css" in URL: 
+            self.Css_decete(deep_deep)        
+
+        
+        
+        
+        
+        
+        
 if __name__ == "__main__":
     HOST, PORT = "localhost", 8080
 
