@@ -87,13 +87,13 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         
         if "etc/group" in URL:
             self.request.sendall(return_404)        
-        if "deep/index.html" in URL:
+        elif "deep/index.html" in URL:
             self.Html_decete(deep_index) 
-        if "index.html" in URL:
+        elif "index.html" in URL:
             self.Html_decete(index)
-        if "base.css" in URL:
+        elif "base.css" in URL:
             self.Css_decete(base)        
-        if "deep.css" in URL: 
+        elif "deep.css" in URL: 
             self.Css_decete(deep_deep)        
 
         

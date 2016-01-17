@@ -63,9 +63,6 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         self.data = self.request.recv(1024).strip()
         if self.data != "":
             userData=self.data.split()
-            print "@@@@@" 
-            print userData
-            print "@@@@@@@@@@@@@"
             URL =self.detect_URL(userData[1])
         
         if(URL == "www/"):
