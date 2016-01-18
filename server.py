@@ -1,7 +1,7 @@
 #  coding: utf-8 
 import SocketServer
 
-# Copyright 2016 Yu Zuo, Qiang Yu. Copyright 2013 Abram Hindle, Eddie Antonio Santos
+#  Copyright 2013 Abram Hindle, Eddie Antonio Santos, Yu Zuo
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
